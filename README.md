@@ -1,3 +1,1 @@
-=========================================================
-Python API fetching latest Corona Virus information.
-=========================================================
+## Python API fetching latest Corona Virus information.
