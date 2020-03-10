@@ -2,7 +2,6 @@ name: Cache
 
 on:
   push:
-  pull_request:
   schedule:
     - cron: "*/10 * * * *"
 
