@@ -1,0 +1,7 @@
+/*
+  Access-Control-Allow-Origin: *
+  Cache-Control: public, max-age: 0, s-maxage=900, must-revalidate
+  Content-Security-Policy: form-action https:
+
+/*.json
+  Cache-Control: public, max-age: 60, s-maxage=900
