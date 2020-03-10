@@ -1,5 +1,5 @@
 """Fetch latest Corona Virus information."""
-from aiohttp import ClientSession
+from aiohttp import ClientSession, ClientResponseError
 from dataclasses import dataclass
 import logging
 
@@ -8,7 +8,7 @@ import logging
 class JohnsHopkinsCase:
     """Class for holding country stats."""
 
-    URL = "https://services1.arcgis.com/0MSEUqKaxRlEPj5g/arcgis/rest/services/ncov_cases/FeatureServer/2/query?where=1%3D1&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&resultType=none&distance=0.0&units=esriSRUnit_Meter&returnGeodetic=false&outFields=*&returnGeometry=false&featureEncoding=esriDefault&multipatchOption=xyFootprint&maxAllowableOffset=&geometryPrecision=&outSR=&datumTransformation=&applyVCSProjection=false&returnIdsOnly=false&returnUniqueIdsOnly=false&returnCountOnly=false&returnExtentOnly=false&returnQueryGeometry=false&returnDistinctValues=false&cacheHint=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&having=&resultOffset=&resultRecordCount=&returnZ=false&returnM=false&returnExceededLimitFeatures=true&quantizationParameters=&sqlFormat=none&f=pjson&token="
+    URL = "https://coronacache.home-assistant.io/corona.json"
     NAME = "Johns Hopkins"
 
     id: str
@@ -75,6 +75,16 @@ async def get_cases(session: ClientSession, *, source=DEFAULT_SOURCE):
     """Fetch Corona Virus cases."""
     resp = await session.get(source.URL)
     data = await resp.json(content_type=None)
+
+    if 'error' in data:
+        # API does not set correct status header so we manually check.
+        raise ClientResponseError(
+            resp.request_info,
+            resp.history,
+            status=data['error']['code'],
+            message=data['error']['message'],
+            headers=resp.headers
+        )
 
     results = []
 
