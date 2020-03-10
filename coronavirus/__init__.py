@@ -8,7 +8,7 @@ import logging
 class JohnsHopkinsCase:
     """Class for holding country stats."""
 
-    URL = "https://coronacache.netlify.com/corona.json"
+    URL = "https://coronacache.home-assistant.io/corona.json"
     NAME = "Johns Hopkins"
 
     id: str
