@@ -22,6 +22,8 @@ class JohnsHopkinsCase:
 
     @property
     def current(self):
+        if None in (self.confirmed, self.deaths, self.recovered):
+            return None
         return self.confirmed - self.deaths - self.recovered
 
     @staticmethod
