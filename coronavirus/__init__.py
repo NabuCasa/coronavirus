@@ -22,6 +22,8 @@ class JohnsHopkinsCase:
 
     @property
     def current(self):
+        if None in (self.confirmed, self.deaths, self.recovered):
+            return None
         return self.confirmed - self.deaths - self.recovered
 
     @staticmethod
@@ -76,14 +78,14 @@ async def get_cases(session: ClientSession, *, source=DEFAULT_SOURCE):
     resp = await session.get(source.URL)
     data = await resp.json(content_type=None)
 
-    if 'error' in data:
+    if "error" in data:
         # API does not set correct status header so we manually check.
         raise ClientResponseError(
             resp.request_info,
             resp.history,
-            status=data['error']['code'],
-            message=data['error']['message'],
-            headers=resp.headers
+            status=data["error"]["code"],
+            message=data["error"]["message"],
+            headers=resp.headers,
         )
 
     results = []
