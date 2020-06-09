@@ -41,6 +41,6 @@ setup(
     name="coronavirus",
     packages=find_packages(include=["coronavirus"]),
     url="https://github.com/nabucasa/coronavirus",
-    version="1.1.0",
+    version="1.1.1",
     zip_safe=False,
 )
