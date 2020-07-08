@@ -12,8 +12,21 @@ jobs:
       - name: Check out files from GitHub
         uses: actions/checkout@v2
       - name: Download latest information
-        run: >-
-          curl -v -s --retry 5 -H "Accept: application/json" https://services1.arcgis.com/0MSEUqKaxRlEPj5g/arcgis/rest/services/ncov_cases/FeatureServer/2/query\?where\=1%3D1\&objectIds\=\&time\=\&geometry\=\&geometryType\=esriGeometryEnvelope\&inSR\=\&spatialRel\=esriSpatialRelIntersects\&resultType\=none\&distance\=0.0\&units\=esriSRUnit_Meter\&returnGeodetic\=false\&outFields\=\*\&returnGeometry\=false\&featureEncoding\=esriDefault\&multipatchOption\=xyFootprint\&maxAllowableOffset\=\&geometryPrecision\=\&outSR\=\&datumTransformation\=\&applyVCSProjection\=false\&returnIdsOnly\=false\&returnUniqueIdsOnly\=false\&returnCountOnly\=false\&returnExtentOnly\=false\&returnQueryGeometry\=false\&returnDistinctValues\=false\&cacheHint\=false\&orderByFields\=\&groupByFieldsForStatistics\=\&outStatistics\=\&having\=\&resultOffset\=\&resultRecordCount\=\&returnZ\=false\&returnM\=false\&returnExceededLimitFeatures\=true\&quantizationParameters\=\&sqlFormat\=none\&f\=pjson\&token\= > public/corona.json
+        run: |
+          curl -v -s --retry 5 'https://services9.arcgis.com/N9p5hsImWXAccRNI/arcgis/rest/services/Nc2JKvYFoAEOFCG5JSI6/FeatureServer/2/query?f=json&where=1%3D1&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&orderByFields=Deaths%20desc&resultOffset=0&resultRecordCount=&resultType=standard&cacheHint=true' \
+            -H 'authority: services9.arcgis.com' \
+            -H 'pragma: no-cache' \
+            -H 'cache-control: no-cache' \
+            -H 'user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36' \
+            -H 'accept: */*' \
+            -H 'origin: https://www.arcgis.com' \
+            -H 'sec-fetch-site: same-site' \
+            -H 'sec-fetch-mode: cors' \
+            -H 'sec-fetch-dest: empty' \
+            -H 'referer: https://www.arcgis.com/apps/opsdashboard/index.html' \
+            -H 'accept-language: nl,nl-NL;q=0.9,en-US;q=0.8,en;q=0.7' \
+            --compressed \
+            > public/corona.json
       - name: Verify it is valid
         run: jq -e ".features" public/corona.json
       - name: Deploy to Netlify
