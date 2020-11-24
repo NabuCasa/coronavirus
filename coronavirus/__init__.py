@@ -19,9 +19,12 @@ class JohnsHopkinsCase:
     latitude: float
     longitude: float
     updated: int
+    active: int
 
     @property
     def current(self):
+        if self.active:
+            return self.active
         if None in (self.confirmed, self.deaths, self.recovered):
             return None
         return self.confirmed - self.deaths - self.recovered
@@ -38,6 +41,7 @@ class JohnsHopkinsCase:
             latitude=attrs["Lat"],
             longitude=attrs["Long_"],
             updated=attrs["Last_Update"],
+            active=attrs["Active"],
         )
 
 
